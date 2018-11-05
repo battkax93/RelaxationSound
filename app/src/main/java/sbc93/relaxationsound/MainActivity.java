@@ -142,13 +142,15 @@ public class MainActivity extends GlobalActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(scV) {
+                if (scV) {
                     scV = false;
-                    sv1.setVisibility(View.INVISIBLE);
+                    animateButton(fab);
+                    slideDown(sv1);
                     fab.setImageResource(R.drawable.ic_play);
                 } else {
                     scV = true;
-                    sv1.setVisibility(View.VISIBLE);
+                    animateButton(fab);
+                    slideUp(sv1);
                     fab.setImageResource(R.drawable.ic_down);
                 }
             }
