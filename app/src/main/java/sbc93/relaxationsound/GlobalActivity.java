@@ -28,4 +28,10 @@ public class GlobalActivity extends AppCompatActivity {
         float volume = (float) (1 - (Math.log(100 - progress) / Math.log(100)));
         return volume;
     }
+
+    public int getOrientation(){
+        return  getResources().getConfiguration().orientation;
+    }
+
+
 }

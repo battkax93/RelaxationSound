@@ -1,15 +1,24 @@
 package sbc93.relaxationsound;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 public class MainActivity extends GlobalActivity {
 
+    FloatingActionButton fab;
+    ScrollView sv1;
     Button b1, b2, b3, b4, b5;
     Boolean s1, s2, s3, s4, s5;
+    Boolean scV;
     SeekBar sb, sb2, sb3, sb4, sb5;
     MediaPlayer player1, player2, player3, player4, player5;
 
@@ -22,7 +31,22 @@ public class MainActivity extends GlobalActivity {
         seekBar();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(getApplicationContext(), "portrait", Toast.LENGTH_SHORT).show();
+            Log.d("flow", "config change 1");
+        }
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(getApplicationContext(), "landscape", Toast.LENGTH_SHORT).show();
+            Log.d("flow", "config change 2");
+        }
+    }
+
     void buttonAction() {
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,17 +107,50 @@ public class MainActivity extends GlobalActivity {
             public void onClick(View v) {
                 if (!s4) {
                     s4 = true;
-//                    createMediaPlayer(s4, player4, R.raw.music3);
+                    player4 = MediaPlayer.create(getApplicationContext(), R.raw.music3);
+                    b4.setBackgroundColor(getResources().getColor(R.color.on));
+                    sb4.setVisibility(View.VISIBLE);
+                    sb4.setProgress(100);
+                    startMediaPlayer(player4);
                 } else {
                     s4 = false;
-                    player4.stop();
+                    sb4.setVisibility(View.GONE);
+                    b4.setBackgroundColor(getResources().getColor(R.color.off));
+                    stopPlayer(player4);
                 }
             }
         });
         b5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!s5) {
+                    s5 = true;
+                    player5 = MediaPlayer.create(getApplicationContext(), R.raw.music3);
+                    b5.setBackgroundColor(getResources().getColor(R.color.on));
+                    sb5.setVisibility(View.VISIBLE);
+                    sb5.setProgress(100);
+                    startMediaPlayer(player5);
+                } else {
+                    s5 = false;
+                    sb5.setVisibility(View.GONE);
+                    b5.setBackgroundColor(getResources().getColor(R.color.off));
+                    stopPlayer(player5);
+                }
+            }
+        });
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(scV) {
+                    scV = false;
+                    sv1.setVisibility(View.INVISIBLE);
+                    fab.setImageResource(R.drawable.ic_play);
+                } else {
+                    scV = true;
+                    sv1.setVisibility(View.VISIBLE);
+                    fab.setImageResource(R.drawable.ic_down);
+                }
             }
         });
     }
@@ -153,6 +210,8 @@ public class MainActivity extends GlobalActivity {
         sb4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float volume = setVolume(progress);
+                player4.setVolume(volume, volume);
             }
 
             @Override
@@ -168,7 +227,8 @@ public class MainActivity extends GlobalActivity {
         sb5.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                float volume = setVolume(progress);
+                player5.setVolume(volume, volume);
             }
 
             @Override
@@ -185,9 +245,8 @@ public class MainActivity extends GlobalActivity {
 
     void initVar() {
 
-       /* player1 = MediaPlayer.create(getApplicationContext(), R.raw.music1);
-        player2 = MediaPlayer.create(getApplicationContext(), R.raw.music2);
-        player3 = MediaPlayer.create(getApplicationContext(), R.raw.music3);*/
+        sv1 = findViewById(R.id.sv_1);
+        fab = findViewById(R.id.fab);
 
         b1 = findViewById(R.id.btn_1);
         b2 = findViewById(R.id.btn_2);
@@ -207,6 +266,7 @@ public class MainActivity extends GlobalActivity {
         s4 = false;
         s5 = false;
 
+        scV = true;
 
     }
 
