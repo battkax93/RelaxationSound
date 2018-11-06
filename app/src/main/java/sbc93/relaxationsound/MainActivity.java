@@ -4,8 +4,11 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -21,6 +24,7 @@ public class MainActivity extends GlobalActivity {
     Boolean scV;
     SeekBar sb, sb2, sb3, sb4, sb5;
     MediaPlayer player1, player2, player3, player4, player5;
+    CoordinatorLayout baseLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,31 @@ public class MainActivity extends GlobalActivity {
             Toast.makeText(getApplicationContext(), "landscape", Toast.LENGTH_SHORT).show();
             Log.d("flow", "config change 2");
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem item_1 = menu.add(Menu.NONE, 1, Menu.NONE, "change background");
+        item_1.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+
+        MenuItem item_2 = menu.add(Menu.NONE, 2, Menu.NONE, "exit");
+        item_2.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 1:
+                Toast.makeText(this, "cliked 1", Toast.LENGTH_SHORT).show();
+                baseLayout.setBackgroundColor(getResources().getColor(R.color.off));
+                break;
+            case 2:
+                Toast.makeText(this, "clicked 2", Toast.LENGTH_SHORT).show();
+                baseLayout.setBackgroundColor(getResources().getColor(R.color.on));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     void buttonAction() {
@@ -246,6 +275,7 @@ public class MainActivity extends GlobalActivity {
     }
 
     void initVar() {
+        baseLayout = findViewById(R.id.base_layout);
 
         sv1 = findViewById(R.id.sv_1);
         fab = findViewById(R.id.fab);

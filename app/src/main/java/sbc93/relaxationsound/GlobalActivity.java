@@ -42,26 +42,25 @@ public class GlobalActivity extends AppCompatActivity {
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
-                view.getHeight()*2,  // fromYDelta
+                view.getHeight() * 2,  // fromYDelta
                 0);                // toYDelta
         animate.setDuration(1000);
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
 
-    // slide the view from its current position to below itself
     public void slideDown(View view) {
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                  // toXDelta
                 0,                 // fromYDelta
-                view.getHeight()*2); // toYDelta
+                view.getHeight() * 2); // toYDelta
         animate.setDuration(1000);
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
 
-    void animateButton (View v){
+    void animateButton(View v) {
         YoYo.with(Techniques.RotateIn)
                 .duration(1000)
                 .playOn(v);
